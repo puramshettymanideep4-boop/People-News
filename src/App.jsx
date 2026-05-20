@@ -1,12 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 
 // Import Components
 import Navbar from './components/Navbar';
-import Loader from './components/Loader';
 
 // Import Pages
 import Login from './pages/Login';
+import Register from './pages/Register';
 import Home from './pages/Home';
 import LocalNews from './pages/LocalNews';
 import Profile from './pages/Profile';
@@ -23,30 +22,15 @@ const ProtectedRoute = ({ children }) => {
 };
 
 function App() {
-  const [loading, setLoading] = useState(true);
-  const location = useLocation();
-
-  // Simulate initial loading for a modern feel
-  useEffect(() => {
-    setLoading(true);
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 500); // 0.5s loading time
-    
-    return () => clearTimeout(timer);
-  }, [location.pathname]); // Trigger loading effect on route change
-
   return (
     <div className="app-container">
       {/* Navbar will only show if user is logged in (handled inside Navbar component) */}
       <Navbar />
       
-      {loading ? (
-        <Loader />
-      ) : (
-        <Routes>
-          {/* Public Route */}
+      <Routes>
+          {/* Public Routes */}
           <Route path="/" element={<Login />} />
+          <Route path="/register" element={<Register />} />
           
           {/* Protected Routes */}
           <Route 
@@ -88,7 +72,6 @@ function App() {
           {/* Fallback route */}
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
-      )}
     </div>
   );
 }
